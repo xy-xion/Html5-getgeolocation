@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="format-detection" content="telphone=no, email=no">
+<title>html5获取当前地理位置</title>
+<style>
+</style>
+ <script src="http://api.map.baidu.com/getscript?v=1.2&ak=&services=&t=20130716024057?callback=getLocation" type="text/javascript"></script>
+</head>
+<body>
+<div onclick="getLocation()" style="border:1px solid #e6e6e6; cursor:pointer; width:150px;background:#e6e6e6;height:35px;line-height:35px">点我获取当前城市：</div><span></span>
+<script type="text/javascript">
+           function  getLocation(){
+               var options={
+                   enableHighAccuracy:true,
+                   maximumAge:1000
+               }
+               if(navigator.geolocation){
+                   //浏览器支持geolocation
+                   navigator.geolocation.getCurrentPosition(onSuccess,onError,options);
+               }else{
+                   //浏览器不支持geolocation
+                   alert('您的浏览器不支持地理位置定位');
+               }
+           }
+           //成功时
+           function onSuccess(position){
+               //返回用户位置
+               //经度
+               var  longitude =position.coords.longitude;
+               //纬度
+               var  latitude = position.coords.latitude;
+
+               //根据经纬度获取地理位置，不太准确，获取城市区域还是可以的
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(longitude,latitude);
+    var gc = new BMap.Geocoder();
+    gc.getLocation(point, function(rs){
+       var addComp = rs.addressComponents;
+	document.getElementsByTagName("span") [0] .innerHTML=
+	addComp.province + ", " + addComp.city + ", " + addComp.district + ", "
+	+ addComp.street + ", " + addComp.streetNumber;
+    });
+           }
+           //失败时
+           function onError(error){
+               switch(error.code){
+                   case 1:
+                   alert("位置服务被拒绝");
+                   break;
+                   case 2:
+                   alert("暂时获取不到位置信息");
+                   break;
+                   case 3:
+                   alert("获取信息超时");
+                   break;
+                   case 4:
+                    alert("未知错误");
+                   break;
+               }
+           }
+ </script>
+
+</body></html>
