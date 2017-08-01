@@ -4,6 +4,6 @@
 
 用html5自带的 input file=""  ，纯html5，并且不涉及到js ，就可以实现本机调用本机相机和相册
 
-代码： <input type="file" accept="image/*" multiple>
+代码：
 
 input:file标签支持一个multiple属性，表示可以支持多选（选择使用本机相机拍照或者直接选择本机相册）
